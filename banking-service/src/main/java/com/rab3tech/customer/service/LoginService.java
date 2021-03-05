@@ -28,6 +28,13 @@ public interface LoginService {
 	List<RoleVO> findRolesByUserid(String userid);
 
 	String updateCustomerRoles(RolesUpdateRequest rolesUpdateRequest);
+	//---------------------------------------------------------
+         RoleVO findRoleByEmail(String email);
+	//---------------------------------------------------------
+	//---------------------------------------------------------
+	//---------------------------------------------------------
+
+	
 	
 
 }

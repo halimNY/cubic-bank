@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Customer List Page</title>
+  <title>Customer new version List Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -20,6 +20,14 @@
   $(document).ready(function() {
         $('#enquiryList').DataTable();
     } );
+  </script>
+ 
+  <script type="text/javascript">
+  function sortingDesc() {
+	  
+	  
+  }
+  
   </script>
   
   <style>
@@ -140,18 +148,25 @@
 
 
 <header style="height: 30px;background-color: maroon;color:white;">
-  Hello Mr. </span>
+ Hello Mr. <span th:utext="${session.userSessionVO.username}" th:unless="${session == null}" style="font-weight: bold;"></span>
    
 </header>
 <div class="container">
-  <h2>Admin Dashboard Page
+   <h2>Employee Dashboard Page
   </h2>
+   <a th:href="@{/customer/enquiries}"> 
   <button type="button" class="btn btn-primary">Customer Enquiry</button>
+  </a>
 <button type="button" class="btn btn-secondary">Lock/Unlock</button>
 <button type="button" class="btn btn-success">Customer Transaction</button>
+<button type="button" class="btn btn-danger">Add Security Question(s)</button>
+<a th:href="@{/customer/accounts/approved}">
+<button type="button" class="btn btn-warning">Account Approval</button>
+</a>
 
-<button type="button" class="btn btn-danger">Check Book Request(s)</button>
-
+<a th:href="@{/admin/roles}">
+<button type="button" class="btn btn-warning">Roles</button>
+</a>
 
 <a th:href="@{/customer/logout}"> 
 <button type="button" class="btn btn-warning">Logout</button>
@@ -165,40 +180,33 @@
   <thead>
   <tr>
   <td> SNO </td>
-  <td> Name </td>
-  <td> Email </td>
-   <td> Gender </td>
+  <td> Name
+   <a th:href="@{/customer/descendingByEmail}"> desc</a>
+   <a th:href="@{/customer/ascendingByEmail}"> Asc</a>
+   </td>
+  <td> Email
+   <a th:href="@{/customer/descendingByname}"> desc</a>
+   <a th:href="@{/customer/ascendingByname}"> Asc</a>
+   </td>
    <td> Mobile </td>
-   <td> Userid </td>
-   <td> Photo </td>
+   <td> Photo  </td>
+   <td> Action </td>
   </tr>
   </thead>
   <tbody>
-  <tr th:each="customerVO,iter: ${customerVOs}">
   
-    <td>
-      <span th:utext="${iter.index+1}"></span>
-      
-      <a th:onclick="|openModal(${customerVO.id},'${customerVO.name}','${customerVO.mobile}')|"  href="#"> 
-      <img th:src="@{/images/icon.png}"/>
-      </a>
-       <a th:onclick="|openRolesPopup(${customerVO.id},'${customerVO.name}','${customerVO.userid}')|"  href="#"> 
-      
-      <img th:src="@{/images/email.png}"/>
-      
-      
-      </a>
-      
-      
-    </td>
+  <tr th:each="customerVO,iter: ${customerVOs}" id="${customerVO.cid}">
+    <td th:text="${iter.index}"/>
     <td th:text="${customerVO.name}">
     <td th:text="${customerVO.email}"/>
-    <td th:text="${customerVO.gender}"/>
     <td th:text="${customerVO.mobile}"/>
-    <td th:text="${customerVO.userid}"/>
-    <td><img th:src="@{'/admin/customers/photo?cid=' + ${customerVO.id}}" style="height: 100px;"/>  </td>
-    <!-- <td>  <img th:src="@{${'/image/display/'+ imageGallery.id}}" >   </td> -->
-  
+  <td>
+    <img th:src="@{'/admin/customers/photo?cid=' + ${customerVO.id}}" style="height: 100px;"/>
+    </td>
+
+    <td>
+     <a th:href="@{'/customer/deleteCustomer?email=' + ${customerVO.email}}"> delete</a>
+     </td>
   </tr>
   </tbody>
   </table>

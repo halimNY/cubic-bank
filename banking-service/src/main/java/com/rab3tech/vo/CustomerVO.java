@@ -3,6 +3,8 @@ package com.rab3tech.vo;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * 
  * @author 
@@ -29,17 +31,25 @@ public class CustomerVO {
 	private String answer1;
 	private String question2;
 	private String answer2;
-	
 	private String approved;
 	private String locked;
     private String accountNum;
-    
+	private String photo;
     private String photoName;
     private byte[] image;
     private String role;
     private String token;
+	private MultipartFile file;
     
-    private List<Integer> roleids;
+    public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
+	private List<Integer> roleids;
     
 	
 	public List<Integer> getRoleids() {
@@ -262,18 +272,24 @@ public class CustomerVO {
 	
 	
 
+	
 	@Override
 	public String toString() {
-		return "CustomerForm [id=" + id + ", userid=" + userid + ", password="
-				+ password + ", name=" + name + ", address=" + address
-				+ ", email=" + email + ", mobile=" + mobile + ", ssn=" + ssn
-				+ ", age=" + age + ", gender=" + gender + ", dob=" + dob
-				+ ", father=" + father + ", qualification=" + qualification
-				+ ", jobTitle=" + jobTitle + ", question1=" + question1
-				+ ", answer1=" + answer1 + ", question2=" + question2
-				+ ", answer2=" + answer2 + ", approved=" + approved
-				+ ", accountNum=" + accountNum + ", photoName=" + photoName
-				+ ", image=" + Arrays.toString(image) + "]";
+		return "CustomerVO [id=" + id + ", userid=" + userid + ", password=" + password + ", name=" + name
+				+ ", address=" + address + ", email=" + email + ", mobile=" + mobile + ", ssn=" + ssn + ", age=" + age
+				+ ", gender=" + gender + ", dob=" + dob + ", father=" + father + ", qualification=" + qualification
+				+ ", jobTitle=" + jobTitle + ", question1=" + question1 + ", answer1=" + answer1 + ", question2="
+				+ question2 + ", answer2=" + answer2 + ", approved=" + approved + ", locked=" + locked + ", accountNum="
+				+ accountNum + ", photo=" + photo + ", photoName=" + photoName + ", image=" + Arrays.toString(image)
+				+ ", role=" + role + ", token=" + token + ", roleids=" + roleids + "]";
+	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 }

@@ -14,6 +14,7 @@ public class CustomerTransaction {
 	
 	
 	private int txid;
+	private String transactionId;
 	private String fromAccount;
 	private String toAccout;
 	private double amount;
@@ -85,6 +86,12 @@ public class CustomerTransaction {
 	}
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
+	}
+	public String getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
 	}
 	@Override
 	public String toString() {

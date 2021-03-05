@@ -1,6 +1,9 @@
 package com.rab3tech.vo;
 
+import java.util.List;
+
 public class EmailVO {
+	private String  checkId;
 	private String name;
 	private String to;
 	private String from;
@@ -9,6 +12,8 @@ public class EmailVO {
 	private String registrationlink;
 	private String username;
 	private String password;
+	private List<CustomerTransactionVO> transactions;
+
 	
 	public EmailVO() {}
 
@@ -109,6 +114,22 @@ public class EmailVO {
 		} else if (!to.equals(other.to))
 			return false;
 		return true;
+	}
+
+	public String getCheckId() {
+		return checkId;
+	}
+
+	public void setCheckId(String checkId) {
+		this.checkId = checkId;
+	}
+
+	public List<CustomerTransactionVO> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<CustomerTransactionVO> customerTransactionVOList) {
+		this.transactions = customerTransactionVOList;
 	}
 	
 	

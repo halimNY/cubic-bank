@@ -77,6 +77,7 @@ public class LoginServiceImpl implements LoginService {
 		if(optional.isPresent()) {
 			Login login=optional.get();
 			loginVO.setEmail(login.getEmail());
+			loginVO.setName(login.getName());
 			loginVO.setUsername(login.getLoginid());
 			loginVO.setPassword(login.getPassword());
 			loginVO.setLocked(login.getLocked());
@@ -181,4 +182,14 @@ public class LoginServiceImpl implements LoginService {
 			return roleVO;
 		}).collect(Collectors.toList());
 	}
+
+
+	@Override
+	public RoleVO findRoleByEmail(String email) {
+	//	Optional<Login>	role=loginRepository.findByEmail(email);
+		return null;
+	}
+
+
+
 }

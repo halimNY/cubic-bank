@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Customer Dashboard Page</title>
+  <title>Customer Transaction Summary</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -22,7 +22,21 @@
   height: 30px;
   background-color:#e9ffe7;
 }
+
+
+.zoom {
+  padding: 10px;
+  transition: transform .2s; /* Animation */
+  height: 250px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(4.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
 </style>
+
+
 </head>
 <body>
 <header style="height: 30px;background-color: maroon;color:white;">
@@ -48,18 +62,59 @@
 <a th:href="@{/customer/fundTransfer}">
 <button type="button" class="btn btn-primary">Fund Transfer</button>
 </a>
-<a th:href="@{/customers/accountSummary}">
+
+<a th:href="@{/customer/accountSummary}">
 <button type="button" class="btn btn-danger">Account Summary</button>
 </a>
-<a th:href="@{/customers/myProfile}">
-<button type="button" class="btn btn-danger">Profile</button>
+
+
+<a th:href="@{/customer/profile}">
+<button type="button" class="btn btn-primary">Profile</button>
 </a>
+
 
  <a th:href="@{/customer/logout}"><button type="button" class="btn btn-warning">Logout</button></a>
  <br/>
-  <img th:src="@{/images/customer_dashboard.jpg}" alt="page"/>
+ <hr/>
+  <img th:src="@{/images/customer-en.png}" alt="page" style="height: 100px;"/>
    <span th:utext="${error}" style="color: red;font-size: 18px;"></span>
   <div style="width: 70%">
+      <p>Customer Transaction Summar:</p>  
+      
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>Transaction Id</td>
+       <td th:text="${fundTransferVO.transactionId}"/>
+      </tr>
+      
+       <tr>
+        <td>Amount</td>
+       <td th:text="${fundTransferVO.amount}"/>
+      </tr>
+      <tr>
+        <td>From Account</td>
+       <td th:text="${fundTransferVO.fromAccount}"/>
+      </tr>
+      <tr>
+        <td>To Account : </td>
+         <td th:text="${fundTransferVO.toAccount}"/>
+      </tr>
+       <tr>
+        <td>Description : </td>
+         <td th:text="${fundTransferVO.remarks}"/>
+      </tr>
+      
+        <tr>
+        <td>DOT : </td>
+         <td th:text="${fundTransferVO.dot}"/>
+      </tr>
+    </tbody>
+  </table>
+  <a th:href="@{/customer/profile/edit}">
+ 	 <button type="button" class="btn btn-danger">Back</button>
+  </a>
+  <hr/>
   </div>
 </div>
 <footer  class="ffooter">

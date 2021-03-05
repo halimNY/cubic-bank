@@ -149,6 +149,7 @@
 									 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 									 Current Balance : <span id="cbalance" style="color:red;"></span>	 
 									</label> <br />
+									  <input type="hidden" name="sfromAccount" th:field="*{fromAccount}"> 
 									<select th:field="*{fromAccount}" class="form-control" disabled="disabled">
 									</select>
 								</div>
@@ -156,6 +157,7 @@
 							<td style="width: 50%">
 								<div>
 									<label for="toAccount">To Account:</label> <br /> 
+									   <input type="hidden" name="stoAccount" th:field="*{toAccount}"> 
 									<select th:field="*{toAccount}"  class="form-control"  style="font-weight: bold;" disabled="disabled">
 									</select>
 									<!-- <input

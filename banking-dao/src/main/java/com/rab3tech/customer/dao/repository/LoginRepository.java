@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.rab3tech.dao.entity.Customer;
 import com.rab3tech.dao.entity.Login;
 
 /**
@@ -20,6 +21,7 @@ public interface LoginRepository extends JpaRepository<Login, String> {
 	
 	public Optional<Login> findByLoginidAndPassword(String loginid,String password);
 	public Optional<Login> findByLoginid(String loginid);
+
 	
 	@Modifying
 	//JPQL - JPA Query Langauge

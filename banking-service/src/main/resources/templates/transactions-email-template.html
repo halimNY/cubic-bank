@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Regarding username and password!!!!!!!!!!!</title>
+    <title> Chase Bank : your transactions </title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -14,47 +14,52 @@
             font-family: 'Roboto', sans-serif;
             font-size: 48px;
         }
+        table,
+th,
+td {
+    padding: 3px 8px;
+    border: 1px solid #666;
+    border-collapse: collapse;
+}
     </style>
 </head>
  <body>
     <p th:text="${'Hello Dear ' + name}"></p>
+    
+     <p>
+        <img th:src="|cid:photo|"  style="height: 200px"/>
+    </p>
 
-      Your username and password are generated on
+
+      Your transaction  for this month
        <span th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}"></span>
-       successfully!!!!!!!!!! 
 
-    <p>
-      Your username  is :  <span th:text="${username}"></span>
-    </p>
-        <p>
-      Your Password is :  <span th:text="${password}"></span>
-    </p>
-      <div style="width: 100%">
-  
-    <table id="enquiryList" class="table table-striped table-bordered" style="width:100%">
+  <div style="width: 70%">
+  </div>
+    <table id="enquiryList" style="width:100%" >
+ 
   <thead>
   <tr>
-  
-  <td> A/C Number</td>
-  <td> Avg Balance </td>
-  <td> A/C Type </td>
-  <td> A/C Status</td>
-  <td>  </td>
-  <td>  </td>
+
+  <td> index </td>
+  <td> Amount </td>
+  <td> Details </td>
+  <td> DOT  </td>
+  <td> Status </td>
   </tr>
   </thead>
   <tbody>
-  <tr >
-  	 <td> <span th:text="${accoutNumber}"></span> </td>
-  	 <td> <span th:text="${balance}"></span> </td>
-  	 <td> <span th:text="${accountType}"></span> </td>
-  	 <td> <span th:text="${accountStatus}"></span> </td>
-    
+   <tr th:each="customerTransaction,iter: ${list}">
+    <td th:text="${iter.index}"/>
+    <td th:text="${customerTransaction.toAccout}"/>
+  	<td th:text="${customerTransaction.amount}"/>
+  	<td th:text="${customerTransaction.details}"/>
+  	<td th:text="${customerTransaction.dot}"/>
+
   </tr>
   </tbody>
-  </table>
-  
-  </div>
+  </table> 
+
     <p>
         <img th:src="|cid:cb|" />
     </p>

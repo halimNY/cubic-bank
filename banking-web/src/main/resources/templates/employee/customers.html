@@ -134,6 +134,61 @@
 
 
 </script>
+<script>
+  
+  function lock(userid){
+	  var userid= $("#userid").val;
+	    //JavaScript Object into json
+      var jsonString= JSON.stringify(userid);
+   	
+     const options = {
+   		   method: 'Get',
+   		   body: jsonString,
+   		   headers: {
+   		     'Content-Type': 'application/json',
+   		     'Accept': 'application/json'
+   		   }
+   		 };
+
+   		 var promise=fetch("v3/customer/lock/userid?userid="+userid, options);
+   		
+   		 promise .then(res => res.json())
+   		   .then(data => {
+   			   console.log(data);
+   			//   $("#shankar_"+aid).hide();
+   			//   $("#mmessage").html(data.message);
+   			
+   		   });
+  }  
+  
+  function unlock(userid){
+	  var userid= $("#userid").val;
+	    //JavaScript Object into json
+      var jsonString= JSON.stringify(userid);
+   	
+     const options = {
+   		   method: 'Get',
+   		   body: jsonString,
+   		   headers: {
+   		     'Content-Type': 'application/json',
+   		     'Accept': 'application/json'
+   		   }
+   		 };
+
+   		 var promise=fetch("v3/customer/unlock/userid?userid="+userid, options);
+   		
+   		 promise .then(res => res.json())
+   		   .then(data => {
+   			   console.log(data);
+   			//   $("#shankar_"+aid).hide();
+   			//   $("#mmessage").html(data.message);
+   			
+   		   });
+  }  
+  
+  
+  
+  </script>
 
 </head>
 <body>
@@ -206,19 +261,20 @@
     <img th:src="@{'/admin/customers/photo?cid=' + ${customerVO.id}}" style="height: 100px;"/>
     </td>
      <td>
-      <div th:switch="${customerVO.locked}">
-        <p th:case="'yes'">
-        <a th:href="@{'/customer/unlock?userid='+${customerVO.userid}}">
-        <img th:src="@{/images/lock.png}"/>
-        </a>
+  
+     <div th:switch="${customerVO.locked}" >
+	    <p th:case="'yes'" >
+	        <a th:href="@{'/customer/unlock?userid='+${customerVO.userid}}" id="userid" onclick="unlock();">
+	            <img th:src="@{/images/lock.png}"/>
+	        </a>
+	     </p>
+	        
+	    <p th:case="'no'"   >
+	        <a th:href="@{'/customer/lock?userid='+${customerVO.userid}}" id="userid" onclick="lock();">
+	            <img th:src="@{/images/unlocked.png}"/>
+	        </a>
         </p>
-        
-        <p th:case="'no'">
-        <a th:href="@{'/customer/lock?userid='+${customerVO.userid}}">
-        <img th:src="@{/images/unlocked.png}"/>
-        </a>
-        </p>
-      </div>
+      </div> 
      </td>
   </tr>
   </tbody>
@@ -227,6 +283,7 @@
   <hr/>
   </div>
 </div>
+
 <footer  class="ffooter">
 </footer>
 

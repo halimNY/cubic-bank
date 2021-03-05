@@ -57,12 +57,33 @@
 
  <a th:href="@{/customer/logout}"><button type="button" class="btn btn-warning">Logout</button></a>
  <br/>
-  <img th:src="@{/images/customer_dashboard.jpg}" alt="page"/>
    <span th:utext="${error}" style="color: red;font-size: 18px;"></span>
   <div style="width: 70%">
   </div>
-</div>
-<footer  class="ffooter">
+</div><br><br>
+
+	<div class="container">
+
+    <legend> Current photo </legend>
+        <img  th:src="@{'data:image/jpeg;base64,'+${customerView.photo}}" style="height: 120px;"  class="zoom"/>
+     
+  
+
+
+		<form action="update" method="post" enctype="multipart/form-data">
+			<legend> New Photo </legend>
+			<div class="form-group">
+				<label>Photo </label> <input type="file" name="file">
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary mb-3">update</button>
+			</div>
+		</form>
+
+	</div>
+
+
+	<footer  class="ffooter">
 </footer>
 
 </body>

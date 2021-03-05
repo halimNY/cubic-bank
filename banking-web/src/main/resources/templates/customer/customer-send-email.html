@@ -57,11 +57,37 @@
 
  <a th:href="@{/customer/logout}"><button type="button" class="btn btn-warning">Logout</button></a>
  <br/>
-  <img th:src="@{/images/customer_dashboard.jpg}" alt="page"/>
    <span th:utext="${error}" style="color: red;font-size: 18px;"></span>
   <div style="width: 70%">
   </div>
+</div><br><br>
+
+<div class="container">
+<form action="custmoerSendEmail" method="post">
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Email address</label>
+  <input  type="text" class="form-control" name="toEmail" placeholder="name@example.com">
 </div>
+<div class="mb-3">
+  <label class="form-label">Subject</label>
+  <input type="text" class="form-control" name="subject"  >
+</div>
+<div class="mb-3">
+  <label  class="form-label">body message</label>
+   <input type="text" class="form-control"  name="emailBody"  >
+</div>
+
+
+ <button type="submit" class="btn btn-success">Send</button>
+ </form>
+<!-- 
+
+
+ -->
+
+</div>
+
+
 <footer  class="ffooter">
 </footer>
 

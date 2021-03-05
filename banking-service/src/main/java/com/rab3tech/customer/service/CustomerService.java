@@ -1,12 +1,14 @@
 package com.rab3tech.customer.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.rab3tech.vo.AccountTypeVO;
 import com.rab3tech.vo.CustomerAccountInfoVO;
 import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.CustomerUpdateVO;
 import com.rab3tech.vo.CustomerVO;
+import com.rab3tech.vo.FundTransferVO;
 import com.rab3tech.vo.PayeeApproveVO;
 import com.rab3tech.vo.PayeeInfoVO;
 import com.rab3tech.vo.RoleVO;
@@ -31,6 +33,7 @@ public interface CustomerService {
 	List<AccountTypeVO> findAccountTypes();
 
 	String findCustomerByEmail(String email);
+	CustomerVO findCustomer(String email);
 
 	String findCustomerByMobile(String mobile);
 
@@ -52,6 +55,13 @@ public interface CustomerService {
 	void deletePayee(int payeeId);
 
 	void updatePayee(UpdatePayeeVO updatePayeeVO);
+	void deleteCustmoer(String email);
+
+     void deleteCustmoerAccount(long id) ;
+
+	void updatePhoto(CustomerVO customerVO);
+
+	FundTransferVO executeTransaction(FundTransferVO fundTransferVO);
 
 	
 

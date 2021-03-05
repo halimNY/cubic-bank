@@ -24,15 +24,19 @@ import com.rab3tech.customer.dao.repository.CustomerAccountApprovedRepository;
 import com.rab3tech.customer.dao.repository.CustomerAccountEnquiryRepository;
 import com.rab3tech.customer.dao.repository.CustomerAccountInfoRepository;
 import com.rab3tech.customer.dao.repository.CustomerRepository;
+import com.rab3tech.customer.dao.repository.CustomerTransactionRepository;
+import com.rab3tech.customer.dao.repository.LoginRepository;
 import com.rab3tech.customer.dao.repository.PayeeRepository;
 import com.rab3tech.customer.dao.repository.RoleRepository;
 import com.rab3tech.customer.service.CustomerService;
+import com.rab3tech.customer.service.LoginService;
 import com.rab3tech.dao.entity.AccountStatus;
 import com.rab3tech.dao.entity.AccountType;
 import com.rab3tech.dao.entity.Customer;
 import com.rab3tech.dao.entity.CustomerAccountInfo;
 import com.rab3tech.dao.entity.CustomerSaving;
 import com.rab3tech.dao.entity.CustomerSavingApproved;
+import com.rab3tech.dao.entity.CustomerTransaction;
 import com.rab3tech.dao.entity.Login;
 import com.rab3tech.dao.entity.PayeeInfo;
 import com.rab3tech.dao.entity.PayeeStatus;
@@ -41,6 +45,7 @@ import com.rab3tech.email.service.EmailService;
 import com.rab3tech.mapper.CustomerMapper;
 import com.rab3tech.utils.AccountStatusEnum;
 import com.rab3tech.utils.PasswordGenerator;
+import com.rab3tech.utils.TransactionIdGeneratorUtils;
 import com.rab3tech.utils.Utils;
 import com.rab3tech.vo.AccountTypeVO;
 import com.rab3tech.vo.CustomerAccountInfoVO;
@@ -48,6 +53,7 @@ import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.CustomerUpdateVO;
 import com.rab3tech.vo.CustomerVO;
 import com.rab3tech.vo.EmailVO;
+import com.rab3tech.vo.FundTransferVO;
 import com.rab3tech.vo.PayeeApproveVO;
 import com.rab3tech.vo.PayeeInfoVO;
 import com.rab3tech.vo.RoleVO;
@@ -89,6 +95,13 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private LoginRepository loginRepository;
+	//@Autowired
+	//private CustomerTransaction customerTransaction ;
+	@Autowired
+	private CustomerTransactionRepository customerTransactionRepository ;
 	
 	//@TimeLogger
 	private CustomerAccountInfoVO createBankAccount(int csaid,String email) {
@@ -142,6 +155,7 @@ public class CustomerServiceImpl implements CustomerService {
 		customerVO.setPassword(genPassword);
 		login.setPassword(bCryptPasswordEncoder.encode(genPassword));
 		login.setToken(customerVO.getToken());
+
 		login.setLocked("no");
 
 		Role entity = roleRepository.findById(3).get();
@@ -161,9 +175,10 @@ public class CustomerServiceImpl implements CustomerService {
 			AccountStatus accountStatus = accountStatusRepository.findByCode(AccountStatusEnum.REGISTERED.getCode())
 					.get();
 			customerSaving.setStatus(accountStatus);
+			//Do you know database!!!
+			this.createBankAccount(customerSaving.getCsaid(),pcustomer.getEmail());
 		}
-		//Do you know database!!!
-		this.createBankAccount(dcustomer.getId(),pcustomer.getEmail());
+	
 		
 		return customerVO;
 	}
@@ -178,23 +193,44 @@ public class CustomerServiceImpl implements CustomerService {
 		em.setFrom("javahunk100@gmail.com");
 		em.setTo(userid);
 		em.setName(customer.getName());
+		//em.setUsername(customer.getEmail()); // new modification 
 		emailService.sendLockAndUnlockEmail(em);
 		//Here write code for email service
 	}
 
 	@Override
 	public List<CustomerVO> findCustomers() {
-		List<Customer> customers = customerRepository.findAll();
-		
-		/*
-		 * List<CustomerVO> customerVOs=new ArrayList<CustomerVO>(); 
-		 * for(Customer customer:customers) {
-		 *  CustomerVO customerVO=CustomerMapper.toVO(customer);
-		 * customerVOs.add(customerVO); } return customerVOs;
-		 */
-		return customers.stream(). //Stream<Customer>
-		map(CustomerMapper::toVO).//Stream<CustomerVO>
-		collect(Collectors.toList()); //List<CustomerVO>
+		List<Customer> customers = customerRepository.findAll();		
+			 List<CustomerVO> customerOnly=new ArrayList<CustomerVO>(); 
+		 
+		 if (customers != null) {
+		 for(Customer customer:customers) {
+			 CustomerVO customerVO = new CustomerVO();
+	
+			 //------------- find customer role Id -----------------
+				String email= customer.getEmail();
+				Login login=loginRepository.findByLoginid(email).get();
+				Set<Role>  roles =login.getRoles();
+		    //--------------------------------------------------------	
+				customerVO.setUserid(login.getLoginid());
+				customerVO.setLocked(login.getLocked());
+				
+				for (Role role : roles) {
+					if(role.getRid()==3) {
+					    	 BeanUtils.copyProperties(customer, customerVO);  
+						    customerOnly.add(customerVO); 	
+					}			
+				}
+		 }
+		 
+		 
+		 
+		 return customerOnly;
+		 }else
+				return null;
+//	 List<CustomerVO> listCustomerVO = customers.stream().map(CustomerMapper::toVO).collect(Collectors.toList()); 		 
+//	 return listCustomerVO; 
+		 
 	}
 	
 	@Override
@@ -403,6 +439,79 @@ public class CustomerServiceImpl implements CustomerService {
 	public void deletePayee(int payeeId) {
 		//This is deleting entity by id
 		payeeRepository.deleteById(payeeId);
+	}
+
+	@Override
+	public  void deleteCustmoer(String email) {
+		
+
+	 customerRepository.deleteByEmail(email);
+      
+	
+	}
+
+	@Override
+	public void deleteCustmoerAccount(long id) {
+	
+		customerAccountInfoRepository.deleteById(id);
+	}
+
+	@Override
+	public CustomerVO findCustomer(String email) {
+		Optional<Customer> customer	=customerRepository.findByEmail(email);
+		 CustomerVO customerVO = null;
+		   if(customer.isPresent()) {
+			   customerVO = new CustomerVO();
+			   customerVO.setName(customer.get().getName());
+			   customerVO.setId(customer.get().getId());
+			   customerVO.setEmail(customer.get().getEmail());
+			   customerVO.setAddress(customer.get().getAddress());
+			   customerVO.setMobile(customer.get().getMobile());
+			   customerVO.setGender(customer.get().getGender());
+			   customerVO.setImage(customer.get().getImage());
+			   
+		   }
+		   System.out.println("profile:::::"+customerVO);
+		  // System.out.println("photo::::::"+customerVO.getImage());
+		return customerVO;
+	}
+
+	@Override
+	public void updatePhoto(CustomerVO customerVO) {
+	 Customer customer= new Customer()	;
+		try {
+			customerVO.setImage(customerVO.getFile().getBytes());
+			BeanUtils.copyProperties(customerVO, customer);
+			customerRepository.save(customer);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public FundTransferVO executeTransaction(FundTransferVO fundTransferVO) {
+		CustomerTransaction customerTransaction=new CustomerTransaction();
+		customerTransaction.setAmount(fundTransferVO.getAmount());
+		customerTransaction.setBankName("ICICI Bank");
+		customerTransaction.setDetails(fundTransferVO.getRemarks());
+		customerTransaction.setDot(new Timestamp(new Date().getTime()));
+		String fromAccount=fundTransferVO.getFromAccount().split("-")[0];
+		String toAccount=fundTransferVO.getToAccount().split("-")[0];
+		customerTransaction.setFromAccount(fromAccount);
+		customerTransaction.setToAccout(toAccount);
+		customerTransaction.setTransactionSchedule("no");
+		customerTransaction.setTxStatus("PROCESSED");
+		customerTransaction.setTxType("IMMEDIATE");
+		customerTransaction.setTransactionId("TX"+TransactionIdGeneratorUtils.randomDecimalString(16));
+		customerTransactionRepository.save(customerTransaction);
+		fundTransferVO.setFromAccount(fromAccount);
+		fundTransferVO.setToAccount(toAccount);
+		fundTransferVO.setTransactionId(customerTransaction.getTransactionId());
+		fundTransferVO.setDot(customerTransaction.getDot());
+		return fundTransferVO;
+	
 	}
 
 }

@@ -37,7 +37,7 @@
   </a>
   
   
-  <a th:href="@{/employee/customers}">
+  <a th:href="@{/employee/customersLockUnlock}">
 <button type="button" class="btn btn-secondary">Lock/Unlock</button>
 </a>
 <button type="button" class="btn btn-success">Customer Transaction</button>
@@ -49,6 +49,10 @@
 <a th:href="@{/admin/roles}">
 <button type="button" class="btn btn-warning">Roles</button>
 </a>
+<a th:href="@{/employee/customers}">
+<button type="button" class="btn btn-primary">Customers</button>
+</a>
+
 
   <img th:src="@{/images/customer_dashboard.jpg}" alt="page"/>
    <span th:utext="${error}" style="color: red;font-size: 18px;"></span>
