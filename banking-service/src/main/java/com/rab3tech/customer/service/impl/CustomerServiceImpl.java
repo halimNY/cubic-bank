@@ -149,7 +149,7 @@ public class CustomerServiceImpl implements CustomerService {
 		BeanUtils.copyProperties(customerVO, pcustomer);
 		Login login = new Login();
 		login.setNoOfAttempt(3);
-		login.setLoginid(customerVO.getEmail());
+		login.setLoginid(customerVO.getEmail()); 
 		login.setName(customerVO.getName());
 		String genPassword = PasswordGenerator.generateRandomPassword(8);
 		customerVO.setPassword(genPassword);
@@ -223,7 +223,7 @@ public class CustomerServiceImpl implements CustomerService {
 				}
 		 }
 		 
-		 
+	//	 List<CustomerVO> customerOnly =customerServiceImpl.findCustomers();
 		 
 		 return customerOnly;
 		 }else
@@ -334,7 +334,7 @@ public class CustomerServiceImpl implements CustomerService {
 	   accountInfoVO.setName(customerAccountInfo.getAccountType().getName());
 	   accountInfoVO.setAcccountType(customerAccountInfo.getAccountType().getName());
 	   
-	   return accountInfoVO;
+	   return accountInfoVO; 
    }
 
       @Override
@@ -343,8 +343,8 @@ public class CustomerServiceImpl implements CustomerService {
 	     List<AccountTypeVO> accountsVO =  new ArrayList<AccountTypeVO>();
 	     for(AccountType account : accounts) {
 		    AccountTypeVO accountVO = new AccountTypeVO();
-		    BeanUtils.copyProperties(account, accountVO);
-		     accountsVO.add(accountVO);
+		    BeanUtils.copyProperties(account, accountVO); 
+		     accountsVO.add(accountVO); 
 	      }
     	return accountsVO;
       }
@@ -376,7 +376,7 @@ public class CustomerServiceImpl implements CustomerService {
 			    piVO.setPayeeStatus(pi.getPayeeStatus().getName());
 			    BeanUtils.copyProperties(pi, piVO);
 			    return piVO;
-		   }).collect(Collectors.toList());
+		   }).collect(Collectors.toList()); 
 		   
 		// List<PayeeInfo> payeeInfoList =  payeeRepository.findAll();
 /*		   
@@ -392,13 +392,13 @@ public class CustomerServiceImpl implements CustomerService {
 */	   }
 
 	 @Override
-	 public List<PayeeInfoVO> registeredPayeeList(String customerId){
+	 public List<PayeeInfoVO> registeredPayeeList(String customerId){ 
 		   
 		   List<PayeeInfo> payeeInfoList =  payeeRepository.findRegisteredPayee(customerId);
 		   List<PayeeInfoVO> payeeInfoVOList = new ArrayList<PayeeInfoVO>();
 		   for(PayeeInfo pi : payeeInfoList) {
 			    PayeeInfoVO piVO = new PayeeInfoVO();
-			    piVO.setPayeeStatus(pi.getPayeeStatus().getName());
+			    piVO.setPayeeStatus(pi.getPayeeStatus().getName())  ;
 			    BeanUtils.copyProperties(pi, piVO);
 			    payeeInfoVOList.add(piVO);
 		   }
@@ -444,10 +444,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public  void deleteCustmoer(String email) {
 		
-
 	 customerRepository.deleteByEmail(email);
-      
-	
+
 	}
 
 	@Override

@@ -96,7 +96,7 @@ public class CustomerAccountInfo {
 
 	public void setTavBalance(float tavBalance) {
 		this.tavBalance = tavBalance;
-	}
+	} 
 
 	public float getAvBalance() {
 		return avBalance;

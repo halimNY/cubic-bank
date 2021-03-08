@@ -15,8 +15,15 @@ public class CustomerTransactionVO {
     private String transactionSchedule;
     private String txStatus;
     private String bankName;
+    private String transactionId;
 	
-    public int getTxid() {
+    public String getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(String transactionId) {
+		this.transactionId = transactionId;
+	}
+	public int getTxid() {
 		return txid;
 	}
 	public void setTxid(int txid) {
