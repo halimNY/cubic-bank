@@ -22,7 +22,7 @@ public class CustomerAccountInfoVO {
 	}
 
 	public void setAcccountType(String acccountType) {
-		this.acccountType = acccountType;
+		this.acccountType = acccountType; 
 	}
 
 	public String getName() {

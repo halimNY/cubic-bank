@@ -67,7 +67,7 @@ public class CustomerEnquiryServiceImpl implements CustomerEnquiryService {
 	@TimeLogger
 	public CustomerSavingVO save(CustomerSavingVO customerSavingVO) {
 		customerSavingVO.setDoa(new Date());
-		customerSavingVO.setAppref("AS-" + Utils.genRandomAlphaNum());
+		customerSavingVO.setAppref("AS-" + Utils.genRandomAlphaNum()); 
 		boolean b = TransactionSynchronizationManager.isActualTransactionActive();
 		if (b) {
 			System.out.println("Ahahahahha tx is working!!!!!!!!!!!!!!");
