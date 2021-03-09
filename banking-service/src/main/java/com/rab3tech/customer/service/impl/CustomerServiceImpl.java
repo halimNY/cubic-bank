@@ -456,7 +456,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public CustomerVO findCustomer(String email) {
-		Optional<Customer> customer	=customerRepository.findByEmail(email);
+		Optional<Customer> customer	=customerRepository.findByEmail(email); 
 		 CustomerVO customerVO = null;
 		   if(customer.isPresent()) {
 			   customerVO = new CustomerVO();

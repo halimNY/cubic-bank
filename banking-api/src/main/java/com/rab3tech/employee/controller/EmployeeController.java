@@ -61,6 +61,7 @@ public class EmployeeController {
 		applicationResponseVO.setMessage("Hi your registration link has been sent to your at email "+customerSavingVO.getEmail());
 		return applicationResponseVO;
 	}
+
 	@GetMapping("customer/lock/userid")
 	public String customerlock(@RequestParam("userid")String userid   )  { 
 		 customerService.updateCustomerLockStatus(userid, "no");    

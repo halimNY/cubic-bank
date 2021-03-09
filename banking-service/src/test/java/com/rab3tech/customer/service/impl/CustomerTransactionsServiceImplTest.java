@@ -37,7 +37,7 @@ public class CustomerTransactionsServiceImplTest {
 	@Before
 	public void initializer(){
 	
-		MockitoAnnotations.initMocks(this); 
+		MockitoAnnotations.initMocks(this);  
 	}
 	@Test
 	public void testFindCustomerTransaction() {
@@ -55,7 +55,7 @@ public class CustomerTransactionsServiceImplTest {
 		List<CustomerTransaction> customerTransactionList = new ArrayList<CustomerTransaction>();
 		CustomerTransaction customerTransaction=new CustomerTransaction();
 		customerTransaction.setAmount(122);
-		customerTransaction.setBankName("Aba");
+		customerTransaction.setBankName("Aba"); 
 		customerTransaction.setFromAccount("9383726262");
 		customerTransaction.setTransactionId("Tx828272");
 		customerTransactionList.add(customerTransaction);

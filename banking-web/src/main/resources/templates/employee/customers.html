@@ -264,14 +264,14 @@
   
      <div th:switch="${customerVO.locked}" >
 	    <p th:case="'yes'" >
-	        <a th:href="@{'/customer/unlock?userid='+${customerVO.userid}}" id="userid" onclick="unlock();">
-	            <img th:src="@{/images/lock.png}"/>
+	        <a th:href="@{'/customer/unlock?userid='+${customerVO.userid}}" id="userid">
+	            <img th:src="@{/images/lock.png}"  onclick="unlock();"/>
 	        </a>
 	     </p>
 	        
 	    <p th:case="'no'"   >
-	        <a th:href="@{'/customer/lock?userid='+${customerVO.userid}}" id="userid" onclick="lock();">
-	            <img th:src="@{/images/unlocked.png}"/>
+	        <a th:href="@{'/customer/lock?userid='+${customerVO.userid}}" id="userid">
+	            <img th:src="@{/images/unlocked.png}"  onclick="lock();"/>
 	        </a>
         </p>
       </div> 
